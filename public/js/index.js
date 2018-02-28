@@ -12,12 +12,17 @@ socket.on('disconnect', function () {
 
 socket.on('newMessage', function (msg) {
 	console.log(msg);
+
+	var li = $('<li></li>');
+	li.text(`${msg.from}: ${msg.text}`);
+	$('#msgs').append(li);
 });
 
-socket.emit(
-	'createMessage',
-	{ from: 'DeepWeb', text: 'Hoi' },
-	function(data) {
-		console.log('Gotta this:', data);
-	}
-);
+$('#msg-form').on('submit', function(e) {
+	e.preventDefault();
+
+	socket.emit('createMessage', {
+		from: 'User',
+		text: $('[name=message]').val()
+	}, function () { });
+});
