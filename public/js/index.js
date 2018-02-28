@@ -13,3 +13,11 @@ socket.on('disconnect', function () {
 socket.on('newMessage', function (msg) {
 	console.log(msg);
 });
+
+socket.emit(
+	'createMessage',
+	{ from: 'DeepWeb', text: 'Hoi' },
+	function(data) {
+		console.log('Gotta this:', data);
+	}
+);
