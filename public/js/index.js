@@ -14,19 +14,20 @@ socket.on('disconnect', function () {
 
 
 socket.on('newMessage', function (msg) {
-	console.log('New message', msg);
-
+	var ft = moment(msg.createdAt).format('HH:mm');
 	var li = $('<li></li>');
-	li.text(`${msg.from}: ${msg.text}`);
+
+	li.text(`[${ ft }] ${ msg.from }: ${ msg.text }`);
 	$('#msgs').append(li);
 });
 
 
 socket.on('newLocationMessage', function(msg) {
+	var ft = moment(msg.createdAt).format('HH:mm');
 	var li = $('<li></li>');
 	var a = $('<a target="_blanck">My current location</a>');
 
-	li.text(`${msg.from}: `);
+	li.text(`[${ ft }] ${msg.from}: `);
 	a.attr('href', msg.url);
 	li.append(a);
 
