@@ -15,23 +15,27 @@ socket.on('disconnect', function () {
 
 socket.on('newMessage', function (msg) {
 	var ft = moment(msg.createdAt).format('HH:mm');
-	var li = $('<li></li>');
 
-	li.text(`[${ ft }] ${ msg.from }: ${ msg.text }`);
-	$('#msgs').append(li);
+	var template = $('#msg-template').html();
+	var html = Mustache.render(template, {
+		text: msg.from,
+		from: msg.text,
+		createdAt: ft
+	});
+	$('#msgs').append(html);
 });
 
 
 socket.on('newLocationMessage', function(msg) {
 	var ft = moment(msg.createdAt).format('HH:mm');
-	var li = $('<li></li>');
-	var a = $('<a target="_blanck">My current location</a>');
 
-	li.text(`[${ ft }] ${msg.from}: `);
-	a.attr('href', msg.url);
-	li.append(a);
-
-	$('#msgs').append(li);
+	var template = $('#locat-msg-template').html();
+	var html = Mustache.render(template, {
+		url: msg.url,
+		from: msg.from,
+		createdAt: ft
+	});
+	$('#msgs').append(html);
 });
 
 $('#msg-form').on('submit', function(e) {
