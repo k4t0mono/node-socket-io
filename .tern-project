@@ -1,7 +1,9 @@
 {
   "libs": [
     "lodash",
-    "moment"
+    "moment",
+	"express",
+	"socket.io"
   ],
   "plugins": {
     "node": {}
