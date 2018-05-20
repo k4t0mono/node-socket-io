@@ -21,14 +21,12 @@ function scrollToBotoom() {
 
 socket.on('connect', function () {
 	var params = jQuery.deparam(window.location.search);
+	params.room = params.room.toLowerCase();
 
 	socket.emit('join', params, function(err) {
 		if(err) {
 			alert(err);
-			window.location.href = '/';		
-
-		} else {
-			console.log('No err');
+			window.location.href = '/';
 		}
 	});
 });

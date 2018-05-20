@@ -29,6 +29,11 @@ io.on('connection', (socket) => {
 			return callback('Name and room name are required.');
 		}
 
+		var same_name = users.getUserList(params.room).filter((n) => n === params.name)[0];
+		if(same_name) {
+			return callback('A user with this name alredy exists in this chat');
+		}
+
 		socket.join(params.room);
 		users.removeUser(socket.id);
 		users.addUser(socket.id, params.name, params.room);
