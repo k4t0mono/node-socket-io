@@ -39,6 +39,17 @@ socket.on('disconnect', function () {
 });
 
 
+socket.on('updateUserList', function(users) {
+	var ul = $('<ul></ul>');
+
+	users.forEach(function(u) {
+		ul.append($('<li></li>').text(u));
+	});
+
+	$('#users').html(ul);
+});
+
+
 socket.on('newMessage', function (msg) {
 	var ft = moment(msg.createdAt).format('HH:mm');
 
