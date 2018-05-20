@@ -55,8 +55,8 @@ socket.on('newMessage', function (msg) {
 
 	var template = $('#msg-template').html();
 	var html = Mustache.render(template, {
-		text: msg.from,
-		from: msg.text,
+		text: msg.text,
+		from: msg.from,
 		createdAt: ft
 	});
 	$('#msgs').append(html);
@@ -84,12 +84,13 @@ $('#msg-form').on('submit', function(e) {
 
 	var textBox = $('[name=message]');
 
-	socket.emit('createMessage', {
-		from: 'User',
-		text: textBox.val()
-	}, function () {
+	socket.emit(
+		'createMessage',
+		{ text: textBox.val() },
+		function () {
 		textBox.val('');
-	});
+		}
+	);
 });
 
 
