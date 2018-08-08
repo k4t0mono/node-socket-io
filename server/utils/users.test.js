@@ -10,24 +10,28 @@ describe('Users', () => {
 
 	beforeEach(() => {
 		users = new Users();
-		users.users = [
-			{ id: '1', name: 'Raven', room: 'KotOR' },
-			{ id: '2', name: 'Malak', room: 'KotOR' },
-			{ id: '3', name: 'Vader', room: 'Galatic Empire' }
-		];
+		users.rooms = {
+			'KotOR': [
+				{ id: '1', name: 'Raven', room: 'KotOR' },
+				{ id: '2', name: 'Malak', room: 'KotOR' }
+			],
+			'Galatic Empire': [
+				{ id: '3', name: 'Vader', room: 'Galatic Empire' }
+			]
+		};
 	});
 
 	it('Should add a new user', () => {
 		var users = new Users();
 		var user = {
 			id: '123',
-			name: 'KatoMono',
-			room: 'Chapa\'ai'
+			name: 'KatoMono'
 		};
+		var room = 'Chapa\'ai';
 
-		var response = users.addUser(user.id, user.name, user.room);
+		var response = users.addUser(user.id, user.name, room);
 
-		expect(users.users).toEqual([user]);
+		expect(users.rooms[room]).toEqual([user]);
 	});
 
 	it('Sould return names for KotOR', () => {
@@ -43,7 +47,7 @@ describe('Users', () => {
 	});
 	
 	it('Should find user', () => {
-		expect(users.getUser('1')).toEqual(users.users[0])
+		expect(users.getUser('1')).toEqual(users.rooms['KotOR'][0])
 	});
 
 	it('Should not find user', () => {
@@ -54,14 +58,15 @@ describe('Users', () => {
 		var user = users.removeUser('1');
 
 		expect(user.id).toBe('1');
-		expect(users.users.length).toBe(2);
+		expect(users.rooms['KotOR'].length).toBe(1);
 	});
 
 	it('Sould not delete user', () => {
 		var user = users.removeUser('fenix');
 
 		expect(user).toNotExist();
-		expect(users.users.length).toBe(3);
+		expect(users.rooms['KotOR'].length).toBe(2);
+		expect(users.rooms['Galatic Empire'].length).toBe(1);
 	});
 
 });

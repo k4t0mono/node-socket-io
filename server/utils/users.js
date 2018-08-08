@@ -2,32 +2,51 @@
 
 class Users {
 	constructor() {
-		this.users = [];
+		this.rooms = [];
 	}
 
 	addUser(id, name, room) {
 		var user = { id, name, room };
-		this.users.push(user);
+
+		if(!this.rooms[room]) this.rooms[room] = []
+
+		this.rooms[room].push(user);
 
 		return user;
 	}
 
 	removeUser(id) {
 		var user = this.getUser(id);
-		if(user) this.users = this.users.filter((u) => u.id !== user.id);
+		if(user) {
+			for(var k in this.rooms) {
+				this.rooms[k] = this.rooms[k].filter((u) => u.id !== user.id);
+			}
+		}
 
 		return user;
 	}
 
 	getUser(id) {
-		return this.users.filter((u) => u.id === id)[0];
+		for(var k in this.rooms) {
+			var u = this.rooms[k].filter((u) => u.id === id);
+
+			if(u[0]) return u[0];
+		}
+
+		return ;
 	}
 
 	getUserList(room) {
-		var users = this.users.filter((user) => user.room === room);
-		var nameArray = users.map((user) => user.name);
+		var rooms = this.rooms[room];
+		if(!rooms) return [];
+
+		var nameArray = rooms.map((user) => user.name);
 
 		return nameArray;
+	}
+
+	getRoomList() {
+		return Object.keys(this.rooms);
 	}
 }
 

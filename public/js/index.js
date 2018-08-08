@@ -2,9 +2,23 @@
 
 var socket = io();
 
-var onFormSubmit = function onFormSubmit(e) {
-	e.preventDefault();
-	
-	console.log('clicked');
-};
+socket.on('connect', function () {
 
+	socket.emit('getRooms', function(rooms) {
+		console.log(rooms);
+
+
+		//var template = $('#rooms-template').html();
+		//for(var i in rooms){
+			//var html = Mustache.render(template, {
+				//name: rooms[i]
+			//});
+			//$('#rooms').append(html);
+		//}
+
+		$('#room').autocomplete({
+			source: rooms
+		});
+	});
+
+});
